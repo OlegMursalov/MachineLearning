@@ -8,6 +8,9 @@ namespace PointsDivision
 {
     public partial class Form1 : Form
     {
+        private Bitmap _currentBitmap = null;
+        private Graphics _currentGraphics = null;
+
         public Form1()
         {
             InitializeComponent();
@@ -15,13 +18,14 @@ namespace PointsDivision
 
         private void GeneratePoints_Click(object sender, EventArgs e)
         {
-            var coordinator = new Coordinator(mainPictureBox, 15, 15);
-            var bitmap = coordinator.Execute();
-             var pg = new PointGenerator(coordinator);
-            bitmap = pg.Execute(bitmap, Plane.TopLeft, Color.Red, 10);
-            bitmap = pg.Execute(bitmap, Plane.BottomRight, Color.Green, 10);
-            BitmapConfig.Set(bitmap);
-            mainPictureBox.Image = bitmap;
+            var graphics = mainPictureBox.CreateGraphics();
+            var coordinator = new Coordinator(graphics, mainPictureBox, 15, 15);
+            graphics = coordinator.Execute();
+             var pg = new PointGenerator(graphics, coordinator);
+            graphics = pg.Execute(Plane.TopLeft, Color.Red, 20);
+            _currentGraphics = graphics;
+            _currentBitmap = new Bitmap(mainPictureBox.Width, mainPictureBox.Height, graphics);
+            mainPictureBox.InitialImage = _currentBitmap;
         }
     }
 }

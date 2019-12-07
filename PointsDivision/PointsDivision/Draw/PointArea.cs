@@ -9,10 +9,10 @@ namespace PointsDivision.Draw
         private int _amount;
         private Color _color;
         private Coordinator _coordinator;
-        private List<Point> _points;
         private Plane _plane;
+        private Random _random;
 
-        public List<Point> Points => _points;
+        public List<Point> Points { get; private set; }
 
         public PointArea(Coordinator coordinator, Plane plane, Color color, int amount)
         {
@@ -20,20 +20,44 @@ namespace PointsDivision.Draw
             _plane = plane;
             _color = color;
             _amount = amount;
-            _points = new List<Point>();
+            Points = new List<Point>();
+            _random = new Random();
         }
 
         public List<Point> Generate()
         {
-            var rand = new Random();
-            _points = new List<Point>();
+            Points = new List<Point>();
             for (int i = 0; i < _amount; i++)
             {
-                var x = rand.Next(_coordinator.LeftX.X, _coordinator.RightX.X);
-                var y = rand.Next(_coordinator.BottomY.Y, _coordinator.TopY.Y);
-                _points.Add(new Point(x, y));
+                var p = RandPointByPlane();
+                Points.Add(p);
             }
-            return _points;
+            return Points;
+        }
+
+        public Point RandPointByPlane()
+        {
+            int x = 0, y = 0;
+            switch (_plane)
+            {
+                case Plane.TopLeft:
+                    x = _random.Next(_coordinator.LeftX.X, _coordinator.FactCenter.X);
+                    y = _random.Next(_coordinator.FactCenter.Y, _coordinator.TopY.Y);
+                    break;
+                case Plane.BottomLeft:
+                    x = _random.Next(_coordinator.LeftX.X, _coordinator.FactCenter.X);
+                    y = _random.Next(_coordinator.BottomY.Y, _coordinator.FactCenter.Y);
+                    break;
+                case Plane.TopRight:
+                    x = _random.Next(_coordinator.FactCenter.X, _coordinator.RightX.X);
+                    y = _random.Next(_coordinator.FactCenter.Y, _coordinator.TopY.Y);
+                    break;
+                case Plane.BottomRight:
+                    x = _random.Next(_coordinator.FactCenter.X, _coordinator.RightX.X);
+                    y = _random.Next(_coordinator.BottomY.Y, _coordinator.FactCenter.Y);
+                    break;
+            }
+            return new Point(x, y);
         }
     }
 }
