@@ -53,8 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Draw\BitmapConfig.cs" />
     <Compile Include="Draw\Coordinator.cs" />
     <Compile Include="Draw\Plane.cs" />
+    <Compile Include="Draw\PointArea.cs" />
     <Compile Include="Draw\PointGenerator.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

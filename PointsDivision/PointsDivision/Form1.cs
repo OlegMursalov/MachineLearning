@@ -1,5 +1,6 @@
 ﻿using PointsDivision.Draw;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -16,10 +17,10 @@ namespace PointsDivision
         {
             var coordinator = new Coordinator(mainPictureBox, 15, 15);
             var bitmap = coordinator.Execute();
-            var pg1 = new PointGenerator(coordinator, 10, Color.Red, Plane.TopLeft);
-            bitmap = pg1.Execute(bitmap);
-            var pg2 = new PointGenerator(coordinator, 10, Color.Green, Plane.BottomRight);
-            bitmap = pg2.Execute(bitmap);
+             var pg = new PointGenerator(coordinator);
+            bitmap = pg.Execute(bitmap, Plane.TopLeft, Color.Red, 10);
+            bitmap = pg.Execute(bitmap, Plane.BottomRight, Color.Green, 10);
+            BitmapConfig.Set(bitmap);
             mainPictureBox.Image = bitmap;
         }
     }

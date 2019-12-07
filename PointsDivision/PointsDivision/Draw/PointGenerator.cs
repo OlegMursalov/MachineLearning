@@ -6,34 +6,29 @@ namespace PointsDivision.Draw
 {
     public class PointGenerator
     {
-        private int _amount;
-        private Color _color;
         private Coordinator _coordinator;
-        private List<Point> _points;
+        private List<PointArea> _pointAreas;
 
-        public PointGenerator(Coordinator coordinator, int amount, Color color, Plane plane)
+        public PointGenerator(Coordinator coordinator)
         {
-            _amount = amount;
-            _color = color;
             _coordinator = coordinator;
-            _points = new List<Point>();
+            _pointAreas = new List<PointArea>();
         }
 
-        public Bitmap Execute(Bitmap bitmap)
+        public Bitmap Execute(Bitmap bitmap, Plane plane, Color color, int amount)
         {
-            var rand = new Random();
-            var colorPen = new Pen(_color);
-            var g = Graphics.FromImage(bitmap);
-            for (int i = 0; i < _amount; i++)
+            var pointArea = new PointArea(_coordinator, plane, color, amount);
+            var colorPen = new Pen(color);
+            using (var graphics = Graphics.FromImage(bitmap))
             {
-                var x = rand.Next(_coordinator.MaxX, _coordinator.MaxY);
-                var y = rand.Next(_coordinator.MaxX, _coordinator.MaxY);
-                var p = new Point(x, y);
-                _points.Add(p);
-                g.DrawEllipse(colorPen, new RectangleF(p.X, p.Y, 2, 2));
+                foreach (var p in pointArea.Generate())
+                {
+                    graphics.DrawEllipse(colorPen, new RectangleF(p.X, p.Y, 2, 2));
+                }
+                _pointAreas.Add(pointArea);
+                graphics.Save();
+                return bitmap;
             }
-            g.Save();
-            return bitmap;
         }
     }
 }
