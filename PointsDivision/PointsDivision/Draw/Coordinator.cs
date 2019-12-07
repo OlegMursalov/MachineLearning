@@ -50,11 +50,11 @@ namespace PointsDivision.Draw
             _graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, _pictureBox.Width, _pictureBox.Height);
             _rightX = new Point(_factCenter.X + MaxX, _factCenter.Y);
             _graphics.DrawLine(blackPen, _factCenter.X, _factCenter.Y, _rightX.X, _rightX.Y);
-            _topY = new Point(_factCenter.X, _factCenter.Y + MaxY);
+            _topY = new Point(_factCenter.X, _factCenter.Y - MaxY);
             _graphics.DrawLine(blackPen, _factCenter.X, _factCenter.Y, _topY.X, _topY.Y);
             _leftX = new Point(_factCenter.X - MaxX, _factCenter.Y);
             _graphics.DrawLine(blackPen, _leftX.X, _leftX.Y, _factCenter.X, _factCenter.Y);
-            _bottomY = new Point(_factCenter.X, _factCenter.Y - MaxY);
+            _bottomY = new Point(_factCenter.X, _factCenter.Y + MaxY);
             _graphics.DrawLine(blackPen, _bottomY.X, _bottomY.Y, _factCenter.X, _factCenter.Y);
             for (int i = 1; i <= _maxX; i++)
             {

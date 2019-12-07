@@ -23,6 +23,9 @@ namespace PointsDivision
             graphics = coordinator.Execute();
              var pg = new PointGenerator(graphics, coordinator);
             graphics = pg.Execute(Plane.TopLeft, Color.Red, 20);
+            graphics = pg.Execute(Plane.BottomLeft, Color.Green, 23);
+            graphics = pg.Execute(Plane.TopRight, Color.Blue, 77);
+            graphics = pg.Execute(Plane.BottomRight, Color.Brown, 31);
             _currentGraphics = graphics;
             _currentBitmap = new Bitmap(mainPictureBox.Width, mainPictureBox.Height, graphics);
             mainPictureBox.InitialImage = _currentBitmap;

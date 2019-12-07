@@ -42,19 +42,19 @@ namespace PointsDivision.Draw
             {
                 case Plane.TopLeft:
                     x = _random.Next(_coordinator.LeftX.X, _coordinator.FactCenter.X);
-                    y = _random.Next(_coordinator.FactCenter.Y, _coordinator.TopY.Y);
+                    y = _random.Next(_coordinator.TopY.Y, _coordinator.FactCenter.Y);
                     break;
                 case Plane.BottomLeft:
                     x = _random.Next(_coordinator.LeftX.X, _coordinator.FactCenter.X);
-                    y = _random.Next(_coordinator.BottomY.Y, _coordinator.FactCenter.Y);
+                    y = _random.Next(_coordinator.FactCenter.Y, _coordinator.BottomY.Y);
                     break;
                 case Plane.TopRight:
                     x = _random.Next(_coordinator.FactCenter.X, _coordinator.RightX.X);
-                    y = _random.Next(_coordinator.FactCenter.Y, _coordinator.TopY.Y);
+                    y = _random.Next(_coordinator.TopY.Y, _coordinator.FactCenter.Y);
                     break;
                 case Plane.BottomRight:
                     x = _random.Next(_coordinator.FactCenter.X, _coordinator.RightX.X);
-                    y = _random.Next(_coordinator.BottomY.Y, _coordinator.FactCenter.Y);
+                    y = _random.Next(_coordinator.FactCenter.Y, _coordinator.BottomY.Y);
                     break;
             }
             return new Point(x, y);
