@@ -39,23 +39,28 @@ namespace PointsDivision.Draw
             _maxY = maxY;
         }
 
-        public Point GetRelativePoint(Point p)
+        public Point CalcPointForCoordinates(Point p)
         {
             return new Point(p.X + _pictureBox.Width / 2, p.Y + _pictureBox.Height / 2);
+        }
+
+        public Point GetRelativePoint(Point p)
+        {
+            return new Point(p.X + _pictureBox.Width / 2, _pictureBox.Height / 2 - p.Y);
         }
 
         public Graphics Execute()
         {
             _center = new Point(0, 0);
-            var center = GetRelativePoint(_center);
+            var center = CalcPointForCoordinates(_center);
             _rightX = new Point(MaxX, 0);
-            var rightX = GetRelativePoint(_rightX);
+            var rightX = CalcPointForCoordinates(_rightX);
             _topY = new Point(0, MaxY);
-            var topY = GetRelativePoint(_topY);
+            var topY = CalcPointForCoordinates(_topY);
             _leftX = new Point(-MaxX, 0);
-            var leftX = GetRelativePoint(_leftX);
+            var leftX = CalcPointForCoordinates(_leftX);
             _bottomY = new Point(0, -MaxY);
-            var bottomY = GetRelativePoint(_bottomY);
+            var bottomY = CalcPointForCoordinates(_bottomY);
 
             var blackPen = new Pen(Color.Black);
             _graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, _pictureBox.Width, _pictureBox.Height);

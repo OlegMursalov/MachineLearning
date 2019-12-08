@@ -56,6 +56,14 @@ namespace PointsDivision.Draw
                     x = _random.Next(_coordinator.Center.X, _coordinator.RightX.X);
                     y = _random.Next(_coordinator.BottomY.Y, _coordinator.Center.Y);
                     break;
+                case Plane.TopRightTopTriangle:
+                    x = _random.Next(_coordinator.Center.X, _coordinator.RightX.X);
+                    y = _random.Next(x, _coordinator.TopY.Y);
+                    break;
+                case Plane.TopRightBottomTriangle:
+                    x = _random.Next(_coordinator.Center.X, _coordinator.RightX.X);
+                    y = _random.Next(_coordinator.Center.Y, x);
+                    break;
             }
             return new Point(x, y);
         }

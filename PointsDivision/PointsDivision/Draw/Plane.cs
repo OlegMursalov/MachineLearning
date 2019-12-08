@@ -5,6 +5,8 @@
         TopLeft,
         TopRight,
         BottomRight,
-        BottomLeft
+        BottomLeft,
+        TopRightTopTriangle,
+        TopRightBottomTriangle
     }
 }
