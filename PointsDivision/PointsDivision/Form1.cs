@@ -1,4 +1,5 @@
-﻿using PointsDivision.Draw;
+﻿using PointsDivision.Classificator;
+using PointsDivision.Draw;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,12 +24,14 @@ namespace PointsDivision
             graphics = coordinator.Execute();
              var pg = new PointGenerator(graphics, coordinator);
             graphics = pg.Execute(Plane.TopLeft, Color.Red, 20);
-            graphics = pg.Execute(Plane.BottomLeft, Color.Green, 23);
-            graphics = pg.Execute(Plane.TopRight, Color.Blue, 77);
-            graphics = pg.Execute(Plane.BottomRight, Color.Brown, 31);
+            graphics = pg.Execute(Plane.TopRight, Color.Green, 23);
             _currentGraphics = graphics;
             _currentBitmap = new Bitmap(mainPictureBox.Width, mainPictureBox.Height, graphics);
             mainPictureBox.InitialImage = _currentBitmap;
+
+            // Classification
+            var points = pg.AllPoints;
+            var linearClassificator = new LinearClassificator(points);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace PointsDivision.Draw
 {
@@ -9,6 +10,19 @@ namespace PointsDivision.Draw
         private Coordinator _coordinator;
         private List<PointArea> _pointAreas;
         private Graphics _graphics;
+
+        public List<Point> AllPoints
+        {
+            get
+            {
+                var points = new List<Point>();
+                foreach (var pa in _pointAreas)
+                {
+                    points.AddRange(pa.Points);
+                }
+                return points;
+            }
+        }
 
         public PointGenerator(Graphics graphics, Coordinator coordinator)
         {

@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classificator\LinearClassificator.cs" />
     <Compile Include="Draw\BitmapConfig.cs" />
     <Compile Include="Draw\Coordinator.cs" />
     <Compile Include="Draw\Plane.cs" />
