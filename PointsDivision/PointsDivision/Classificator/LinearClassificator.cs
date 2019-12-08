@@ -75,8 +75,12 @@ namespace PointsDivision.Classificator
                 var factPointR = _coordinator.GetRelativePointF(factPoint);
                 var expectedPointR = _coordinator.GetRelativePointF(expectedPoint);
 
-                DrawLine(new Pen(Color.Red), initialPointR, factPointR);
-                DrawLine(new Pen(Color.Green), initialPointR, expectedPointR);
+                if (point == _points.Last())
+                {
+                    var factPointR_forLine = new PointF(factPointR.X + 100, factPointR.Y - 100);
+                    DrawLine(new Pen(Color.Red), initialPointR, factPointR_forLine);
+                    // DrawLine(new Pen(Color.Green), initialPointR, expectedPointR);
+                }
 
                 _pictureBox.InitialImage = new Bitmap(_pictureBox.Width, _pictureBox.Height, _graphics);
 
