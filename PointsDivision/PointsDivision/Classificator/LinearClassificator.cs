@@ -93,7 +93,7 @@ namespace PointsDivision.Classificator
                 var factPointR_forLine = new PointF(factPointR.X + 100, factPointR.Y - 100);
                 
                 DrawLine(GetPen(i), initialPointR, factPointR_forLine);
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 // DrawLine(new Pen(Color.Green), initialPointR, expectedPointR);
 
                 _pictureBox.InitialImage = new Bitmap(_pictureBox.Width, _pictureBox.Height, _graphics);

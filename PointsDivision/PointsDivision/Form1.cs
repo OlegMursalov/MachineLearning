@@ -26,8 +26,8 @@ namespace PointsDivision
             _coordinator = new Coordinator(_currentGraphics, mainPictureBox, 15, 15);
             _currentGraphics = _coordinator.Execute();
              var pg = new PointGenerator(_currentGraphics, _coordinator);
-            _currentGraphics = pg.Execute(Plane.TopRightTopTriangle, Color.Red, 5);
-            _currentGraphics = pg.Execute(Plane.TopRightBottomTriangle, Color.Green, 5);
+            _currentGraphics = pg.Execute(Plane.TopRightTopTriangle, Color.Red, 15);
+            _currentGraphics = pg.Execute(Plane.TopRightBottomTriangle, Color.Green, 29);
             _currentBitmap = new Bitmap(mainPictureBox.Width, mainPictureBox.Height, _currentGraphics);
             mainPictureBox.InitialImage = _currentBitmap;
             _allPoints = pg.AllPointsExt;
