@@ -4,11 +4,15 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows;
+using System.Threading;
+using System;
 
 namespace PointsDivision.Classificator
 {
     public class LinearClassificator
     {
+        private Form _form = null;
+        private TextBox _textBox = null;
         private Graphics _graphics;
         private Coordinator _coordinator;
         private PictureBox _pictureBox;
@@ -25,8 +29,10 @@ namespace PointsDivision.Classificator
             return y;
         }
 
-        public LinearClassificator(Graphics graphics, Coordinator coordinator, PictureBox pictureBox, List<PointExt> points)
+        public LinearClassificator(Form form, TextBox textBox, Graphics graphics, Coordinator coordinator, PictureBox pictureBox, List<PointExt> points)
         {
+            _form = form;
+            _textBox = textBox;
             _graphics = graphics;
             _coordinator = coordinator;
             _pictureBox = pictureBox;
@@ -42,6 +48,12 @@ namespace PointsDivision.Classificator
             _B = b;
             _offset = offset;
             _L = L;
+            _form.Invoke(new Action(SetFuncStrView));
+        }
+
+        private string GetFuncStrView()
+        {
+            return $"y = {_A}x + {_B}";
         }
 
         public void Execute()
@@ -50,8 +62,11 @@ namespace PointsDivision.Classificator
             var initialPoint = new PointF(0, Func(0));
             var initialPointR = _coordinator.GetRelativePointF(initialPoint);
 
+            var i = 0;
             foreach (var point in _points)
             {
+                i++;
+
                 // Фактическая точка, то, что вернула функция линейного классификатора с текущим A
                 var factPoint = new PointF(point.X, Func(point.X));
 
@@ -75,17 +90,43 @@ namespace PointsDivision.Classificator
                 var factPointR = _coordinator.GetRelativePointF(factPoint);
                 var expectedPointR = _coordinator.GetRelativePointF(expectedPoint);
 
-                if (point == _points.Last())
-                {
-                    var factPointR_forLine = new PointF(factPointR.X + 100, factPointR.Y - 100);
-                    DrawLine(new Pen(Color.Red), initialPointR, factPointR_forLine);
-                    // DrawLine(new Pen(Color.Green), initialPointR, expectedPointR);
-                }
+                var factPointR_forLine = new PointF(factPointR.X + 100, factPointR.Y - 100);
+                
+                DrawLine(GetPen(i), initialPointR, factPointR_forLine);
+                Thread.Sleep(1000);
+                // DrawLine(new Pen(Color.Green), initialPointR, expectedPointR);
 
                 _pictureBox.InitialImage = new Bitmap(_pictureBox.Width, _pictureBox.Height, _graphics);
 
                 ChangeA(E, point.X);
+
+                _form.Invoke(new Action(SetFuncStrView));
             }
+        }
+
+        private void SetFuncStrView()
+        {
+            _textBox.Text = GetFuncStrView();
+        }
+
+        /// <summary>
+        /// Только для анализа поведения отрисовки линий
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        private Pen GetPen(int i)
+        {
+            Pen pen = null;
+            if (i == _points.Count)
+            {
+                pen = new Pen(Color.Blue);
+                pen.Width = 3;
+            }
+            else
+            {
+                pen = new Pen(Color.Yellow);
+            }
+            return pen;
         }
 
         /// <summary>

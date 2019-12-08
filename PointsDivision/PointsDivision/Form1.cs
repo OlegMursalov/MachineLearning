@@ -3,6 +3,7 @@ using PointsDivision.Draw;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace PointsDivision
@@ -32,14 +33,23 @@ namespace PointsDivision
             _allPoints = pg.AllPointsExt;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Classification_Click(object sender, EventArgs e)
         {
             // Classification
             if (_allPoints == null && _allPoints.Count == 0)
             {
                 return;
             }
-            var linearClassificator = new LinearClassificator(_currentGraphics, _coordinator, mainPictureBox, _allPoints);
+            if (backgroundWorker1.IsBusy != true)
+            {
+                // Start the asynchronous operation.
+                backgroundWorker1.RunWorkerAsync();
+            }
+        }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            var linearClassificator = new LinearClassificator(this, lineClassificatorTxb, _currentGraphics, _coordinator, mainPictureBox, _allPoints);
             linearClassificator.SetParams(a: 0.25F, b: 0, offset: 1, L: 0.5F);
             linearClassificator.Execute();
         }

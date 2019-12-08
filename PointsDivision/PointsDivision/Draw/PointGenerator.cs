@@ -10,7 +10,7 @@ namespace PointsDivision.Draw
         private Coordinator _coordinator;
         private List<PointArea> _pointAreas;
         private Graphics _graphics;
-        private int pSize = 2;
+        private int pSize = 4;
 
         public List<PointExt> AllPointsExt
         {
@@ -42,13 +42,13 @@ namespace PointsDivision.Draw
         public Graphics Execute(Plane plane, Color color, int amount)
         {
             var pointArea = new PointArea(_coordinator, plane, color, amount);
-            var colorPen = new Pen(color);
+            var brush = new SolidBrush(color);
             var points = pointArea.Generate();
             foreach (var p in points)
             {
                 var relativePoint = _coordinator.GetRelativePointF(p);
                 var rF = new RectangleF(relativePoint.X, relativePoint.Y, pSize, pSize);
-                _graphics.DrawEllipse(colorPen, rF);
+                _graphics.FillEllipse(brush, rF);
             }
             _pointAreas.Add(pointArea);
             _graphics.Save();
