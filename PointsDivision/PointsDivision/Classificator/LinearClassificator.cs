@@ -1,24 +1,20 @@
-﻿using System;
+﻿using PointsDivision.Draw;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PointsDivision.Classificator
 {
     public class LinearClassificator
     {
-        private List<Point> _points;
+        private List<PointExt> _points;
 
-        public LinearClassificator(List<Point> points)
+        public LinearClassificator(List<PointExt> points)
         {
             _points = points;
         }
 
         public void Execute()
         {
-
+            
         }
     }
 }

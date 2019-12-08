@@ -25,13 +25,16 @@ namespace PointsDivision
              var pg = new PointGenerator(graphics, coordinator);
             graphics = pg.Execute(Plane.TopLeft, Color.Red, 20);
             graphics = pg.Execute(Plane.TopRight, Color.Green, 23);
+            graphics = pg.Execute(Plane.BottomLeft, Color.Yellow, 20);
+            graphics = pg.Execute(Plane.BottomRight, Color.Pink, 23);
             _currentGraphics = graphics;
             _currentBitmap = new Bitmap(mainPictureBox.Width, mainPictureBox.Height, graphics);
             mainPictureBox.InitialImage = _currentBitmap;
 
             // Classification
-            var points = pg.AllPoints;
+            var points = pg.AllPointsExt;
             var linearClassificator = new LinearClassificator(points);
+            linearClassificator.Execute();
         }
     }
 }

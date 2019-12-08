@@ -9,12 +9,13 @@ namespace PointsDivision.Draw
         private PictureBox _pictureBox;
         private int _maxX;
         private int _maxY;
-        private Point _factCenter;
         private int _del = 15;
+        private Point _center;
         private Graphics _graphics;
+        private int pSize = 2;
 
         public int Del => _del;
-        public Point FactCenter => _factCenter;
+        public Point Center => _center;
         public int MaxX => _maxX * _del;
         public int MaxY => _maxY * _del;
 
@@ -36,36 +37,44 @@ namespace PointsDivision.Draw
             _pictureBox = pictureBox;
             _maxX = maxX;
             _maxY = maxY;
-            _factCenter = GetFactCenter();
         }
 
-        private Point GetFactCenter()
+        public Point GetRelativePoint(Point p)
         {
-            return new Point(_pictureBox.Width / 2, _pictureBox.Height / 2);
+            return new Point(p.X + _pictureBox.Width / 2, p.Y + _pictureBox.Height / 2);
         }
 
         public Graphics Execute()
         {
+            _center = new Point(0, 0);
+            var center = GetRelativePoint(_center);
+            _rightX = new Point(MaxX, 0);
+            var rightX = GetRelativePoint(_rightX);
+            _topY = new Point(0, MaxY);
+            var topY = GetRelativePoint(_topY);
+            _leftX = new Point(-MaxX, 0);
+            var leftX = GetRelativePoint(_leftX);
+            _bottomY = new Point(0, -MaxY);
+            var bottomY = GetRelativePoint(_bottomY);
+
             var blackPen = new Pen(Color.Black);
             _graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, _pictureBox.Width, _pictureBox.Height);
-            _rightX = new Point(_factCenter.X + MaxX, _factCenter.Y);
-            _graphics.DrawLine(blackPen, _factCenter.X, _factCenter.Y, _rightX.X, _rightX.Y);
-            _topY = new Point(_factCenter.X, _factCenter.Y - MaxY);
-            _graphics.DrawLine(blackPen, _factCenter.X, _factCenter.Y, _topY.X, _topY.Y);
-            _leftX = new Point(_factCenter.X - MaxX, _factCenter.Y);
-            _graphics.DrawLine(blackPen, _leftX.X, _leftX.Y, _factCenter.X, _factCenter.Y);
-            _bottomY = new Point(_factCenter.X, _factCenter.Y + MaxY);
-            _graphics.DrawLine(blackPen, _bottomY.X, _bottomY.Y, _factCenter.X, _factCenter.Y);
+            _graphics.DrawLine(blackPen, center.X, center.Y, rightX.X, rightX.Y);
+            _graphics.DrawLine(blackPen, center.X, center.Y, topY.X, topY.Y);
+            _graphics.DrawLine(blackPen, leftX.X, leftX.Y, center.X, center.Y);
+            _graphics.DrawLine(blackPen, bottomY.X, bottomY.Y, center.X, center.Y);
+
             for (int i = 1; i <= _maxX; i++)
             {
-                _graphics.DrawEllipse(blackPen, new RectangleF(_factCenter.X + (i * _del), _factCenter.Y, 2, 2));
-                _graphics.DrawEllipse(blackPen, new RectangleF(_factCenter.X - (i * _del), _factCenter.Y, 2, 2));
+                _graphics.DrawEllipse(blackPen, new RectangleF(center.X + (i * _del), center.Y, pSize, pSize));
+                _graphics.DrawEllipse(blackPen, new RectangleF(center.X - (i * _del), center.Y, pSize, pSize));
             }
             for (int i = 1; i <= _maxY; i++)
             {
-                _graphics.DrawEllipse(blackPen, new RectangleF(_factCenter.X, _factCenter.Y + (i * _del), 2, 2));
-                _graphics.DrawEllipse(blackPen, new RectangleF(_factCenter.X, _factCenter.Y - (i * _del), 2, 2));
+                _graphics.DrawEllipse(blackPen, new RectangleF(center.X, center.Y + (i * _del), pSize, pSize));
+                _graphics.DrawEllipse(blackPen, new RectangleF(center.X, center.Y - (i * _del), pSize, pSize));
             }
+
             _graphics.Save();
             return _graphics;
         }

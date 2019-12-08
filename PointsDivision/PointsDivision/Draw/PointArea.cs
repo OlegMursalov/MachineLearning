@@ -7,18 +7,18 @@ namespace PointsDivision.Draw
     public class PointArea
     {
         private int _amount;
-        private Color _color;
         private Coordinator _coordinator;
         private Plane _plane;
         private Random _random;
 
         public List<Point> Points { get; private set; }
+        public Color Color { get; private set; }
 
         public PointArea(Coordinator coordinator, Plane plane, Color color, int amount)
         {
             _coordinator = coordinator;
             _plane = plane;
-            _color = color;
+            Color = color;
             _amount = amount;
             Points = new List<Point>();
             _random = new Random();
@@ -41,20 +41,20 @@ namespace PointsDivision.Draw
             switch (_plane)
             {
                 case Plane.TopLeft:
-                    x = _random.Next(_coordinator.LeftX.X, _coordinator.FactCenter.X);
-                    y = _random.Next(_coordinator.TopY.Y, _coordinator.FactCenter.Y);
+                    x = _random.Next(_coordinator.LeftX.X, _coordinator.Center.X);
+                    y = _random.Next(_coordinator.Center.Y, _coordinator.TopY.Y);
                     break;
                 case Plane.BottomLeft:
-                    x = _random.Next(_coordinator.LeftX.X, _coordinator.FactCenter.X);
-                    y = _random.Next(_coordinator.FactCenter.Y, _coordinator.BottomY.Y);
+                    x = _random.Next(_coordinator.LeftX.X, _coordinator.Center.X);
+                    y = _random.Next(_coordinator.BottomY.Y, _coordinator.Center.Y);
                     break;
                 case Plane.TopRight:
-                    x = _random.Next(_coordinator.FactCenter.X, _coordinator.RightX.X);
-                    y = _random.Next(_coordinator.TopY.Y, _coordinator.FactCenter.Y);
+                    x = _random.Next(_coordinator.Center.X, _coordinator.RightX.X);
+                    y = _random.Next(_coordinator.Center.Y, _coordinator.TopY.Y);
                     break;
                 case Plane.BottomRight:
-                    x = _random.Next(_coordinator.FactCenter.X, _coordinator.RightX.X);
-                    y = _random.Next(_coordinator.FactCenter.Y, _coordinator.BottomY.Y);
+                    x = _random.Next(_coordinator.Center.X, _coordinator.RightX.X);
+                    y = _random.Next(_coordinator.BottomY.Y, _coordinator.Center.Y);
                     break;
             }
             return new Point(x, y);
