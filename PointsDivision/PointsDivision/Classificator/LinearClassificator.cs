@@ -13,14 +13,15 @@ namespace PointsDivision.Classificator
         private Coordinator _coordinator;
         private PictureBox _pictureBox;
         private List<PointExt> _points;
-        private float _a;
-        private float _b;
-        private float _offset;
 
+        private float _A; // Коэфициент A для линейного уравнения
+        private float _B; // Коэфициент B для линейного уравнения
+        private float _offset; // Смещение для желаемых результатов (точек)
+        private float _L; // Коэфициент сглаживания (коэфициент обучения)
 
         private float Func(float x)
         {
-            var y = _a * x + _b;
+            var y = _A * x + _B;
             return y;
         }
 
@@ -35,22 +36,26 @@ namespace PointsDivision.Classificator
         /// <summary>
         /// Задать начальные характеристики для линейной функции
         /// </summary>
-        public void SetParams(float a, float b, float offset)
+        public void SetParams(float a, float b, float offset, float L)
         {
-            _a = a;
-            _b = b;
+            _A = a;
+            _B = b;
             _offset = offset;
+            _L = L;
         }
 
         public void Execute()
         {
+            // Предполагаем, что линия классификатора начинается из точки 0:0
             var initialPoint = new PointF(0, Func(0));
             var initialPointR = _coordinator.GetRelativePointF(initialPoint);
 
             foreach (var point in _points)
             {
+                // Фактическая точка, то, что вернула функция линейного классификатора с текущим A
                 var factPoint = new PointF(point.X, Func(point.X));
 
+                // Ожидаемая точка
                 var expectedPoint = point.Point;
 
                 // Красные точки должны быть над линией класификации
@@ -58,7 +63,7 @@ namespace PointsDivision.Classificator
                 {
                     expectedPoint.Y += _offset;
                 }
-                // Зелене точки должны быть под линией класификации
+                // Зеленые точки должны быть под линией класификации
                 if (point.Color == Color.Green)
                 {
                     expectedPoint.Y -= _offset;
@@ -74,7 +79,18 @@ namespace PointsDivision.Classificator
                 DrawLine(new Pen(Color.Green), initialPointR, expectedPointR);
 
                 _pictureBox.InitialImage = new Bitmap(_pictureBox.Width, _pictureBox.Height, _graphics);
+
+                ChangeA(E, point.X);
             }
+        }
+
+        /// <summary>
+        /// Правит коэфициент A в зависимости от ошибки
+        /// </summary>
+        private void ChangeA(float E, float x)
+        {
+            var deltaA = _L * (E / x);
+            _A += deltaA;
         }
 
         private void DrawLine(Pen pen, PointF p1, PointF p2)
