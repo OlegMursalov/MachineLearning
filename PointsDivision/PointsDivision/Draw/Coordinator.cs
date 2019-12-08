@@ -10,26 +10,26 @@ namespace PointsDivision.Draw
         private int _maxX;
         private int _maxY;
         private int _del = 15;
-        private Point _center;
+        private PointF _center;
         private Graphics _graphics;
         private int pSize = 2;
 
         public int Del => _del;
-        public Point Center => _center;
+        public PointF Center => _center;
         public int MaxX => _maxX * _del;
         public int MaxY => _maxY * _del;
 
-        private Point _leftX;
-        public Point LeftX => _leftX;
+        private PointF _leftX;
+        public PointF LeftX => _leftX;
 
-        private Point _rightX;
-        public Point RightX => _rightX;
+        private PointF _rightX;
+        public PointF RightX => _rightX;
 
-        private Point _topY;
-        public Point TopY => _topY;
+        private PointF _topY;
+        public PointF TopY => _topY;
 
-        private Point _bottomY;
-        public Point BottomY => _bottomY;
+        private PointF _bottomY;
+        public PointF BottomY => _bottomY;
 
         public Coordinator(Graphics graphics, PictureBox pictureBox, int maxX, int maxY)
         {
@@ -39,28 +39,28 @@ namespace PointsDivision.Draw
             _maxY = maxY;
         }
 
-        public Point CalcPointForCoordinates(Point p)
+        public PointF CalcPointFForCoordinates(PointF p)
         {
-            return new Point(p.X + _pictureBox.Width / 2, p.Y + _pictureBox.Height / 2);
+            return new PointF(p.X + _pictureBox.Width / 2, p.Y + _pictureBox.Height / 2);
         }
 
-        public Point GetRelativePoint(Point p)
+        public PointF GetRelativePointF(PointF p)
         {
-            return new Point(p.X + _pictureBox.Width / 2, _pictureBox.Height / 2 - p.Y);
+            return new PointF(p.X + _pictureBox.Width / 2, _pictureBox.Height / 2 - p.Y);
         }
 
         public Graphics Execute()
         {
-            _center = new Point(0, 0);
-            var center = CalcPointForCoordinates(_center);
-            _rightX = new Point(MaxX, 0);
-            var rightX = CalcPointForCoordinates(_rightX);
-            _topY = new Point(0, MaxY);
-            var topY = CalcPointForCoordinates(_topY);
-            _leftX = new Point(-MaxX, 0);
-            var leftX = CalcPointForCoordinates(_leftX);
-            _bottomY = new Point(0, -MaxY);
-            var bottomY = CalcPointForCoordinates(_bottomY);
+            _center = new PointF(0, 0);
+            var center = CalcPointFForCoordinates(_center);
+            _rightX = new PointF(MaxX, 0);
+            var rightX = CalcPointFForCoordinates(_rightX);
+            _topY = new PointF(0, MaxY);
+            var topY = CalcPointFForCoordinates(_topY);
+            _leftX = new PointF(-MaxX, 0);
+            var leftX = CalcPointFForCoordinates(_leftX);
+            _bottomY = new PointF(0, -MaxY);
+            var bottomY = CalcPointFForCoordinates(_bottomY);
 
             var blackPen = new Pen(Color.Black);
             _graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, _pictureBox.Width, _pictureBox.Height);

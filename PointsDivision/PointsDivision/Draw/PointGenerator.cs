@@ -46,7 +46,7 @@ namespace PointsDivision.Draw
             var points = pointArea.Generate();
             foreach (var p in points)
             {
-                var relativePoint = _coordinator.GetRelativePoint(p);
+                var relativePoint = _coordinator.GetRelativePointF(p);
                 var rF = new RectangleF(relativePoint.X, relativePoint.Y, pSize, pSize);
                 _graphics.DrawEllipse(colorPen, rF);
             }

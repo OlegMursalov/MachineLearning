@@ -31,7 +31,8 @@ namespace PointsDivision
 
             // Classification
             var points = pg.AllPointsExt;
-            var linearClassificator = new LinearClassificator(points);
+            var linearClassificator = new LinearClassificator(graphics, coordinator, mainPictureBox, points);
+            linearClassificator.SetParams(a: 0.25F, b: 0, offset: 1);
             linearClassificator.Execute();
         }
     }
